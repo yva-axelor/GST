@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  	https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
+
+	<grid model="com.axelor.company.db.Company" title="Companies"
+		name="company-grid">
+		<field name="name" />
+		<field name="contact" />
+		<field name="GSTIN" />
+		<field name="bankDetails" />
+		<field name="address" />
+	</grid>
+
+	<form model="com.axelor.company.db.Company" title="Company"
+		name="company-form" width="large">
+		<panel title="Company" name="companyPanel" colSpan="12">
+			<panel name="logoAndNamePanel">
+				<panel name="logoPanel"><field name="logo" widget="Image" /></panel>
+				<panel name="companyNamePanel">
+					<field name="name"/>
+					<field name="contact">
+						<editor>
+							<field name="name"/>
+							
+<!-- 							I think single select widget should be used here -->
+							<field name="type"/>
+							
+							<field name="primaryEmail"/>
+							<field name="secondaryEmail"/>
+							<field name="primaryPhone"/>
+							<field name="secondaryPhone"/>
+						</editor>
+					</field>	
+				</panel>
+			</panel>
+			<panel name="bodyPanel">
+				<field name="GSTIN"/>
+				<field name="bankDetails"/>
+				<field name="address" colSpan="12"/>
+			</panel>
+		</panel>
+	</form>
+
+</object-views>

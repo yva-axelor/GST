@@ -29,4 +29,9 @@ allprojects {
 
 dependencies {
   // add dependencies
+    implementation project(':modules:axelor-product')
+    implementation project(':modules:axelor-company')
+    implementation project(':modules:axelor-party')
+    implementation project(':modules:axelor-invoice')
+
 }

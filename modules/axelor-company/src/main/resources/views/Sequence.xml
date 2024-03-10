@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  	https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
+
+	<grid model="com.axelor.company.db.Sequence" title="Sequences"
+		name="sequence-grid">
+
+		<field name="prefix"/>
+		<field name="padding"/>
+		<field name="suffix"/>
+		<field name="nextNumber" />
+	</grid>
+
+	<form model="com.axelor.company.db.Sequence" title="Sequence"
+		name="sequence-form">
+		<panel title="Company Sequence" name="sequencePanel"
+			colSpan="12" itemSpan="4">
+			<field name="prefix" />
+			<field name="padding" />
+			<field name="suffix" />
+			<field name="nextNumber" colSpan="12" />
+		</panel>
+	</form>
+
+</object-views>

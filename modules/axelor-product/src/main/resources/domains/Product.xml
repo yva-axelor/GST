@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models
+	xmlns="http://axelor.com/xml/ns/domain-models"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/domain-models https://axelor.com/xml/ns/domain-models/domain-models_6.0.xsd">
+	<module package="com.axelor.product.db" name="product"/>
+	<entity name="Product">
+		<string name="name" required="true"></string>
+		<string name="code" required="true"></string>
+		<string name="fullName" namecolumn="true" readonly="true">
+			<![CDATA[ if(name==null || code==null){ return ""; } else{ return "["+code+"] "+name; } ]]>
+		</string>
+		<string name="HSBN"></string>
+		<many-to-one ref="com.axelor.product.db.ProductCategory" name="productCategory"></many-to-one>
+		<decimal name="salePrice"></decimal>
+		<decimal name="costPrice"></decimal>
+		<binary name="image"></binary>
+		<decimal name="gstRate"></decimal>
+	</entity>
+</domain-models>

@@ -1,0 +1,14 @@
+plugins {
+  id 'com.axelor.app' 
+}
+
+axelor { 
+  title = 'Axelor Invoice'
+}
+dependencies {
+  // add dependencies
+    implementation project(':modules:axelor-product')
+    implementation project(':modules:axelor-company')
+    implementation project(':modules:axelor-party')
+
+}

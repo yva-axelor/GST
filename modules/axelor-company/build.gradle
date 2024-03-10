@@ -1,0 +1,15 @@
+plugins {
+	id 'com.axelor.app'
+}
+
+axelor {
+	title = "Axelor Company"
+}
+
+dependencies {
+  // add dependencies
+    
+    implementation project(':modules:axelor-party')
+   
+
+}

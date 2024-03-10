@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
+  
+  	<grid model="com.axelor.product.db.Product" title="Products"
+		name="product-grid">
+		<toolbar>
+			<button onClick="" title="Create invoice" name="createInvoice" icon="fa-plus"/>
+			<button onClick="" title="Print" name="print" icon="fa-print"/>
+		</toolbar>
+		<field name="name"></field>
+		<field name="code"></field>
+		<field name="HSBN"></field>
+		<field name="salePrice"></field>
+		<field name="costPrice"></field>
+		<field name="image"></field>
+		<field name="productCategory"></field>
+		<field name="gstRate"></field>
+	</grid>
+
+	<form model="com.axelor.product.db.Product" title="Product"
+		name="product-form" width="large">
+		<panel>
+			<field name="image" widget="image" colSpan="4"></field>
+			<panel>
+				<field name="name"></field>
+				<field name="code"></field>
+				<field name="HSBN"></field>
+				<field name="productCategory" onChange="action-product-method-setgstrate"></field>
+				<field name="salePrice"></field>
+				<field name="costPrice"></field>
+				<field name="gstRate"></field>
+			</panel>
+		</panel>
+	</form>
+	<cards name="product-card" model="com.axelor.product.db.Product"
+		title="Products">
+		<field name="image" />
+		<field name="name" />
+		<field name="HSBN" />
+		<field name="productCategory"></field>
+		<field name="salePrice" />
+		<field name="costPrice" />
+		<field name="gstRate"></field>
+		<template>
+			<![CDATA[
+			<div class="span4 card-image">
+			<br>
+			<br> 
+			<img ng-src="{{$image(image, 'image')}}">
+			</div> 
+			<div class="span8">
+			<p><b>Product name : </b>{{name}}</p>
+			<p><b>Product Category : </b>{{productCategory.name}}</p>
+			<p><b>GST rate : </b>{{gstRate}}&nbsp;&nbsp;&nbsp;&nbsp;<b>HSBN : </b>{{HSBN}}</p>
+			<p><b>Sale price :</b> {{salePrice}}&nbsp;&nbsp;&nbsp;&nbsp;<b>Cost price:</b> {{costPrice}}</p>
+			</div>
+			 ]]>
+		</template>
+	</cards>
+	
+	<action-method name="action-product-method-setgstrate">
+		<call class="com.axelor.product.web.ProductController" method="setTaxRate"/>
+	</action-method>
+</object-views>

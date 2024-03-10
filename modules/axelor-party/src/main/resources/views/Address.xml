@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
+
+	<grid model="com.axelor.party.db.Address" title="Addresses"
+		name="address-grid">
+		<field name="typeSelect" />
+		<field name="line1" />
+		<field name="city" />
+		<field name="city.state" />
+		<field name="city.state.country" />
+		<field name="pinCode" />
+	</grid>
+
+	<form model="com.axelor.party.db.Address" title="Address"
+		name="address-form">
+		<panel>
+			<field name="typeSelect" widget="SingleSelect" />
+			<field name="line1" />
+			<field name="line2" />
+			<field name="city" />
+			<field name="pinCode" />
+		</panel>
+	</form>
+
+</object-views>

@@ -36,3 +36,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = 'axelor-gst'
+include "modules:axelor-party"
+include "modules:axelor-company"
+include "modules:axelor-product"
+include "modules:axelor-invoice"
