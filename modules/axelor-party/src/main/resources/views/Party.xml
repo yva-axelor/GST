@@ -15,19 +15,20 @@
   
   <form model="com.axelor.party.db.Party" title="Party" name="party-form">
   	<panel>
-  		<field name="referenceSeq" showIf="referenceSeq != null" colSpan="12"/>
-	  	<field name="name"/>
+<!--   		<field name="referenceSeq" showIf="referenceSeq != null" colSpan="12"/> -->	
+		<field name="referenceSeq"/>
+  		<field name="name"/>
 	  	<field name="typeSelect" widget="SingleSelect"/>
 	  	<field name="isCustomer"/>
 	  	<field name="isSupplier"/>
 	  	<field name="gstin"/>
 	</panel>
 	<panel-tabs>
-		<panel-related field="contactList" grid-view="contact-grid"></panel-related>
-		<panel-related field="addressList" grid-view="address-grid"></panel-related>
-		<panel title="Contact list editor">
+		<!-- <panel-related field="contactList" grid-view="contact-grid"></panel-related>
+		<panel-related field="addressList" grid-view="address-grid"></panel-related> -->
+		<panel title="Contact">
 			<field name="contactList" colSpan="12">
-		  		<editor>
+		  		<editor x-show-on-new="false">
 		  			<field name="name"/>
 				  	<field name="typeSelect" widget="SingleSelect"/>
 				  	<field name="primaryEmail"/>
@@ -37,9 +38,9 @@
 		  		</editor>
 		  	</field>
 		</panel>
-		<panel title="Address list editor">
+		<panel title="Address">
 			<field name="addressList" colSpan="12">
-		  		<editor>
+		  		<editor x-show-on-new="false">
 		  			<field name="typeSelect" widget="SingleSelect"/>
 			  		<field name="line1"/>
 			  		<field name="line2"/>
@@ -51,28 +52,17 @@
 	</panel-tabs>
   </form>
   
-  <cards name="party-cards" model="com.axelor.party.db.Party" title="Parties">
-  	<field name="referenceSeq"/>
+  <cards name="party-card" model="com.axelor.party.db.Party" title="Parties">
   	<field name="name"/>
   	<field name="typeSelect"/>
-  	<field name="isCustomer"/>
-  	<field name="isSupplier"/>
-  	<field name="gstin"/>
   	<template>
   		<![CDATA[
-  			<div class="span4 card-image" align="top">
-  				<strong>Reference</strong>{{referenceSeq}}<br>
-		    	<strong>Name </strong>{{name}}<br>
-		  	</div>
-		  	<div class="span8">
-				        <strong>Type</strong></br>{{ typeSelect == 0 ? 'Company' 
-				        : typeSelect == 1 ? 'Individual' : ''}}</br>
-					    </br>{{ isCustomer == true ? 'Customer' 
-					        : isCustomer == false ? '' : ''}}</br>
-					    {{ isSupplier == true ? 'Supplier' 
-					        : isSupplier == false ? '' : ''}}</br>
-				    <strong>GSTIN</strong></br>{{gstin}}</br>
-			</div>
+  			<div class="span8">
+  			<strong>Name</strong> : {{name}}<br>
+  			<strong>Type</strong> : {{typeSelect}}<br>
+  			<strong>Contact</strong> : {{$contact}}<br>
+  			<strong>Address</strong> : {{$address}}<br>
+  			</div>
   		]]>
   	</template>
   </cards>

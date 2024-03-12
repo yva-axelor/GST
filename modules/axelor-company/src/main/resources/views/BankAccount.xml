@@ -4,7 +4,7 @@
   xsi:schemaLocation="http://axelor.com/xml/ns/object-views
   https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
 
-  <grid model="com.axelor.company.db.BankAccount" title="Bank Details" name="bank-grid">
+  <grid model="com.axelor.company.db.BankAccount" title="Bank Accounts" name="bankAccount-grid">
       <field name="bank"/>
       <field name="accountNo"/>
       <field name="ifsc"/>
@@ -13,7 +13,7 @@
   
   </grid>
   
-  <form model="com.axelor.company.db.BankAccount" title="Bank Details" name="bank-form">
+  <form model="com.axelor.company.db.BankAccount" title="Bank Account" name="bankAccount-form">
     <panel name="bank-panel">
       <field name="bank"/>
       <field name="accountNo"/>

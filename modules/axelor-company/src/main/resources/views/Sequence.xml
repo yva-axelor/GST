@@ -7,20 +7,26 @@
 	<grid model="com.axelor.company.db.Sequence" title="Sequences"
 		name="sequence-grid">
 
-		<field name="prefix"/>
-		<field name="padding"/>
-		<field name="suffix"/>
+		<field name="prefix" />
+		<field name="padding" />
+		<field name="suffix" />
 		<field name="nextNumber" />
+		<field name="model"/>
 	</grid>
 
 	<form model="com.axelor.company.db.Sequence" title="Sequence"
 		name="sequence-form">
-		<panel title="Company Sequence" name="sequencePanel"
-			colSpan="12" itemSpan="4">
-			<field name="prefix" />
-			<field name="padding" />
-			<field name="suffix" />
-			<field name="nextNumber" colSpan="12" />
+		<panel>
+			<field name="prefix"
+				onChange="action-sequence-method-generate-sequence" />
+			<field name="padding"
+				onChange="action-sequence-method-generate-sequence" />
+			<field name="suffix"
+				onChange="action-sequence-method-generate-sequence" />
+		</panel>
+		<panel>
+			<field name="nextNumber"  />
+			<field name="model" form-view="meta-model-form" grid-view="meta-model-grid"></field>
 		</panel>
 	</form>
 
