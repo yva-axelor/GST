@@ -1,0 +1,15 @@
+plugins {
+  id 'com.axelor.app'
+}
+axelor {
+  title = 'Axelor Dashboard'
+}
+
+dependencies {
+  // add dependencies
+  implementation project(':modules:axelor-product')
+    implementation project(':modules:axelor-company')
+    implementation project(':modules:axelor-party')
+    implementation project(':modules:axelor-invoice')
+
+}

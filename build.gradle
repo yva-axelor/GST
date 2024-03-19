@@ -33,5 +33,6 @@ dependencies {
     implementation project(':modules:axelor-company')
     implementation project(':modules:axelor-party')
     implementation project(':modules:axelor-invoice')
+    implementation project(':modules:axelor-dashboard')
 
 }

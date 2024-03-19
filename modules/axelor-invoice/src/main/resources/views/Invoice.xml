@@ -6,24 +6,25 @@
 
 	<grid model="com.axelor.invoice.db.Invoice" title="Invoices"
 		name="invoice-grid" edit-icon="true">
-		<field name="reference"/>
-		<field name="status"  />
+		<field name="reference" />
+		<field name="status" />
 		<field name="company" />
 		<field name="invoiceDateT" />
-		<field name="party"/>
-		<field name="partyContact"/>
-		<field name="invoiceAddress"/>
-		<field name="shippingAddress"/>
-		<field name="netAmount"/>
-		<field name="igst"/>
-		<field name="cgst"/>
-		<field name="sgst"/>
-		<field name="grossAmount"/>
+		<field name="party" />
+		<field name="partyContact" />
+		<field name="invoiceAddress" />
+		<field name="shippingAddress" />
+		<field name="netAmount" />
+		<field name="igst" />
+		<field name="cgst" />
+		<field name="sgst" />
+		<field name="grossAmount" />
 
 	</grid>
 
 	<form model="com.axelor.invoice.db.Invoice" title="Invoice"
-		name="invoice-form" onNew="action-invoice-record-set-fields">
+		name="invoice-form"
+		onNew="action-invoice-record-set-fields,action-invoice-record-set-status-to-draft">
 		<toolbar>
 			<button onClick="action-invoice-report" name="printBtn"
 				icon="fa-print" />
@@ -37,43 +38,40 @@
 		</panel>
 		<panel>
 			<field name="party" readonlyIf="invoiceItemsList.length>0"
-				onChange="action-invoice-method-set-contact-address"
+				onChange="action-invoice-group-set-contact-address"
 				form-view="party-form" grid-view="party-grid" />
 			<field name="partyContact"
-				readonlyIf="invoiceItemsList.length>0"
-				domain="self.id in (select c1 from Party p1 join p1.contact c1 where c1.type='primary' and p1=:party)" />
+				readonlyIf="invoiceItemsList.length>0" />
 		</panel>
 		<panel itemSpan="4">
 			<field name="invoiceAddress"
-				readonlyIf="invoiceItemsList.length>0"
-				domain="self.id in (select a1 from Party p1 join p1.address a1 where (a1.type='default' or a1.type='invoice') and" />
+				readonlyIf="invoiceItemsList.length>0" />
 			<field name="isInvoiceAddressAsShipping"
-				onChange="action-invoice-method-set-contact-address" />
+				onChange="action-invoice-group-set-contact-address" />
 			<field name="shippingAddress"
-				hideIf="isInvoiceAddressAsShipping"
-				domain="self.id in (select a1 from Party p1 joim p1.address a1 where (a1.type='default' or a1.type='shipping') and )" />
+				hideIf="isInvoiceAddressAsShipping" />
 		</panel>
 
 		<panel-related field="invoiceItemsList"
 			form-view="invoice-line-form" grid-view="invoice-line-grid"
-			onChange="action-invoice-method-calculate-total-values" />
+			onChange="action-invoice-group-calculate-total-values" />
 
 		<panel sidebar="true">
 			<button
 				onClick="save,action-invoice-record-set-status-to-draft,save"
-				name="Draft-btn" showIf="status == cancelled" />
+				name="Draft-btn" title="Draft " showIf="status == 'cancelled'" />
 			<button
 				onClick="save,action-invoice-record-set-status-to-validated,save"
 				name="validate-btn" title="Validate" css="btn-primary"
-				showIf="status == draft" />
+				showIf="status == 'draft'" />
 			<button
 				onClick="save,action-invoice-record-set-status-to-paid,save"
 				name="paid-btn" title="Paid" css="btn-primary"
-				showIf="status == validate" />
+				showIf="status == 'validate'" />
 			<button
-				onClick="save,action-invoice-record-set-status-to-cancelled,save"
+				onClick="save,action-invoice-record-set-status-to-cancelled,action.invoice.validate.cancle.invoice,save"
 				name="cancle-btn" title="Cancel" css="btn-danger"
-				icon="fa-times-circle" showIf="[draft,validate].includes(status)" />
+				icon="fa-times-circle" showIf="['draft','validate'].includes(status)" />
 		</panel>
 
 		<panel sidebar="true">
@@ -81,22 +79,61 @@
 			<field name="igst" hidden="true" />
 			<field name="cgst" hidden="true" />
 			<field name="sgst" hidden="true" />
-			<field name="grossAmount" hidden="true" >
-			<viewer>
+			<field name="grossAmount"  showTitle="false">
+				<viewer>
 				<![CDATA[
-					<d1 class="d1-horizontal">
-						<dt>Net Amount</dt>
-						<dd>{{record.netAmount}}</dd>
-						<dt>IGST</dt>
-						<dd>{{record.igst}}</dd>
-						<dt>CGST</dt>
-						<dd>{{record.cgst}}</dd>
-						<dt>SGST</dt>
-						<dd>{{record.sgst}}</dd>
-						<dt>SGST</dt>
-						<dd>{{record.sgst}}</dd> <br>
-						<dt>Gross Amount</dt>
-						<dd class="order-subtotal-total">{{record.grossAmount}}</dd>
+				
+				<table>
+					<tr>
+					<th style="font-size:15px;padding-top: 10px;
+  padding-left: 30px;
+  padding-right: 40px;">Net Amount</th>
+					<td style="font-size:15px ;padding-top: 10px;
+  
+  padding-left: 30px;
+  padding-right: 40px;">{{record.netAmount}}</td>
+					</tr>
+					<tr>
+					<th style="font-size:15px;padding-top: 10px;
+  
+  padding-left: 30px;
+  padding-right: 40px;">IGST</td>
+					<td style="font-size:15px; padding-top: 10px;
+
+  padding-left: 30px;
+  padding-right: 40px;">{{record.igst}}</td>
+					</tr>
+						<tr>
+					<th style="font-size:15px;padding-top: 10px;
+  padding-left: 30px;
+  padding-right: 40px;">CGST</th>
+					<td style="font-size:15px ;padding-top: 10px;
+  
+  padding-left: 30px;
+  padding-right: 40px;">{{record.cgst}}</td>
+					</tr>
+					<tr>
+					<th style="font-size:15px;padding-top: 10px;
+  
+  padding-left: 30px;
+  padding-right: 40px;">SGST</td>
+					<td style="font-size:15px; padding-top: 10px;
+
+  padding-left: 30px;
+  padding-right: 40px;border-bottom:1pt solid black;">{{record.sgst}}</td>
+					</tr>
+					<tr>
+					<th style="font-size:15px;padding-top: 10px;
+  
+  padding-left: 30px;
+  padding-right: 40px;">Gross Amount</td>
+					<td style="font-size:15px; padding-top: 10px;
+
+  padding-left: 30px;
+  padding-right: 40px;">{{record.grossAmount}}</td>
+					</tr>
+				</table>
+		
 				]]>
 			</viewer>
 			</field>
@@ -104,12 +141,12 @@
 	</form>
 
 	<kanban columnBy="status" model="com.axelor.invoice.db.Invoice"
-		sequenceBy="priority" title="Invoice" name="invoice-kanban" >
+		sequenceBy="priority" title="Invoice" name="invoice-kanban">
 		<field name="company" />
 		<field name="invoiceDateT" />
 		<field name="party" />
-		<field name="partyContact"/>
-		
+		<field name="partyContact" />
+
 		<template>
             <![CDATA[ 
             <strong>Company</strong> : {{company.name}}<br>
@@ -118,134 +155,103 @@
              ]]>
         </template>
 	</kanban>
-<!-- 
-	<action-record
-		name="action-invoice-record-set-status-draft"
-		model="com.axelor.invoice.db.Invoice">
-		<field name="status" expr="draft" />
-
-	</action-record>
-
-	<action-record
-		name="action-invoice-record-set-status-validate"
-		model="com.axelor.invoice.db.Invoice">
-		<field name="status" expr="validate" />
-
-	</action-record>
-
-	<action-record
-		name="action-invoice-record-set-status-paid"
-		model="com.axelor.invoice.db.Invoice">
-		<field name="status" expr="paid" />
-
-	</action-record>
-
-
-	<action-record
-		name="action-invoice-record-set-status-cancelled"
-		model="com.axelor.invoice.db.Invoice">
-		<field name="status" expr="cancellled" />
-
-	</action-record>
-
-	<action-record
-		name="action-invoice-record-set-invoice-date"
-		model="com.axelor.invoice.db.Invoice">
-		<field name="invoiceDateT" expr="eval: LocalDateTime.now()" />
-
-	</action-record>
-
 	<action-validate
 		name="action.invoice.validate.cancle.invoice">
 		<alert
 			message="This action will cancel this invoice. Do you want to proceed?" />
 	</action-validate>
 
-
-	<action-group name="action-invoice-group-for-validate">
-		<action name="action-invoice-record-set-status-validate" />
-
+	<action-group
+		name="action-invoice-group-set-contact-address">
+		<action
+			name="action-invoice-line-method-set-default-party-contact" />
+		<action
+			name="action-invoice-line-method-set-default-invoice-address" />
+		<action
+			name="action-invoice-line-method-set-default-shipping-address" />
 	</action-group>
-
-
-	<action-group name="action-invoice-group-for-paid">
-		<action name="action-invoice-record-set-status-paid" />
-
-	</action-group>
-
-	<action-group name="action-invoice-group-for-cancel">
-		<action name="action.invoice.validate.cancle.invoice" />
-		<action name="action-invoice-record-set-status-cancelled" />
-	</action-group>
-
-	<action-group name="action-invoice-group-for-on-new-form">
-		<action name="action-invoice-record-set-status-draft" />
-	</action-group>
-
 
 	<action-method
 		name="action-invoice-line-method-set-default-party-contact">
 		<call class="com.axelor.invoice.web.InvoiceController"
 			method="setDefaultPartyContact" />
-
 	</action-method>
-
 	<action-method
 		name="action-invoice-line-method-set-default-invoice-address">
 		<call class="com.axelor.invoice.web.InvoiceController"
 			method="setDefaultInvoiceAddress" />
-
 	</action-method>
-
-
 	<action-method
 		name="action-invoice-line-method-set-default-shipping-address">
 		<call class="com.axelor.invoice.web.InvoiceController"
 			method="setDefaultShippingAddress" />
-
 	</action-method>
 
-	<action-method
-		name="action-invoice-line-method-set-default-invoice-address">
-		<call class="com.axelor.invoice.web.InvoiceController"
-			method="setDefaultInvoiceAddress" />
 
-	</action-method>
-
+	<action-group
+		name="action-invoice-group-calculate-total-values">
+		<action name="action-invoice-line-method-calculate-net-amount" />
+		<action name="action-invoice-line-method-calculate-igst" />
+		<action name="action-invoice-line-method-calculate-cgst" />
+		<action name="action-invoice-line-method-calculate-sgst" />
+		<action
+			name="action-invoice-line-method-calculate-gross-amount" />
+	</action-group>
 	<action-method
 		name="action-invoice-line-method-calculate-net-amount">
 		<call class="com.axelor.invoice.web.InvoiceController"
 			method="calculateNetAmount" />
-
 	</action-method>
-
 	<action-method
 		name="action-invoice-line-method-calculate-igst">
 		<call class="com.axelor.invoice.web.InvoiceController"
 			method="calculateIGST" />
-
 	</action-method>
-
 	<action-method
 		name="action-invoice-line-method-calculate-cgst">
 		<call class="com.axelor.invoice.web.InvoiceController"
 			method="calculateCGST" />
-
 	</action-method>
-
 	<action-method
 		name="action-invoice-line-method-calculate-sgst">
 		<call class="com.axelor.invoice.web.InvoiceController"
 			method="calculateSGST" />
-
 	</action-method>
-
 	<action-method
 		name="action-invoice-line-method-calculate-gross-amount">
 		<call class="com.axelor.invoice.web.InvoiceController"
 			method="calculateGrossAmount" />
+	</action-method>
 
-	</action-method> -->
+	<action-record name="action-invoice-record-set-fields"
+		model="com.axelor.invoice.db.Invoice">
+		<field name="invoiceDateT" expr="eval: __time__" />
+	</action-record>
 
+
+	<action-record
+		name="action-invoice-record-set-status-to-cancelled"
+		model="com.axelor.invoice.db.Invoice">
+		<field name="status" expr="cancellled" />
+	</action-record>
+
+	<action-record
+		name="action-invoice-record-set-status-to-draft"
+		model="com.axelor.invoice.db.Invoice">
+		<field name="status" expr="draft" />
+	</action-record>
+
+	<action-record
+		name="action-invoice-record-set-status-to-paid"
+		model="com.axelor.invoice.db.Invoice">
+		<field name="status" expr="paid" />
+	</action-record>
+
+	<action-record
+		name="action-invoice-record-set-status-to-validated"
+		model="com.axelor.invoice.db.Invoice">
+		<field name="status" expr="validate" />
+
+	</action-record>
 
 </object-views>

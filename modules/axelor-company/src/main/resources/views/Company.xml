@@ -24,7 +24,7 @@
 					form-view="contact-form" grid-view="contact-grid">
 					<editor>
 						<field name="name" />
-						<field name="type" />
+						<field name="typeSelect" />
 						<field name="primaryEmail" />
 						<field name="secondaryEmail" />
 						<field name="primaryPhone" />

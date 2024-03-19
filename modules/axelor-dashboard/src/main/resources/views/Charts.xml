@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
+
+	<chart name="chart.amount.per.status"
+		title="Invoice per status: amount">
+		<dataset type="jpql">
+			<![CDATA[
+				select
+					sum(invoice.netAmount) as amount,
+					item.title AS status,
+					invoice.satatus
+				from
+					Invoice invoice
+					MetaSelect meta,
+						MetaSelectItem item
+					where
+						meta.name="invoice.status"
+						AND item.select = meta
+						AND invoice.status=item.order
+					group by
+						item.title,
+						invoice.status
+					order by
+						invoice.status
+			]]>
+		</dataset>
+		<category key="status" />
+		<series key="amount" type="bar" />
+
+	</chart>
+
+
+	<chart name="chart.customer.per.state.pie"
+		title="Custome per state">
+		<dataset type="jpql">
+			<![CDATA[
+				select 
+					count(party.id) as total,
+					state.name as state
+				from
+					Party party
+				join
+					party.address address
+				join
+					address.state state
+				where
+					party.customer=true
+				group by
+					state.name
+			
+			]]>
+		</dataset>
+		<category key="state" />
+		<series key="total" type="pie" />
+	</chart>
+
+	<chart name="chart.invoices.per.status.line"
+		title="Invoice per status: number of invoices">
+		<dataset type="rpc">
+			com.axelor.dashboard.web.DashboardController:invoicePerStatus
+		</dataset>
+
+		<category key="status" type="text" />
+		<series key="totalInvoice" type="line" />
+	</chart>
+
+	<chart name="chart.paid.invoices.per.catagory.per.product"
+		title="Paid invoices per catagory per product"
+		onInit="action-charts-record-chart-set-date">
+		<search-fields>
+			<field name="fromDate" title="From Date" type="date" />
+			<field name="toDate" title="To Date" type="date" />
+		</search-fields>
+		<dataset type="jpql">
+		<![CDATA[
+			select
+				count(invoice.id) as total,
+				productCategory.name as product_catagory,
+				product.name as product_name
+			from
+				Invoice invoice
+			join
+				invoice.invoiceItems items
+			join
+				items.product product
+			join
+				product.catagory productCatagory
+			where
+				invoice.status='paid'
+				and Date(invoice.dateTo) Between Date(:fromDate) and Date(:toDate)
+			group by
+				productCategory.name,
+				product.name
+		]]>
+	
+	</dataset>
+		<category key="product_catagory" />
+		<series key="total" groupBy="product_name" type="bar" />
+
+	</chart>
+
+	<chart name="chart.unpaid.invoices.per.customer"
+		title="Unpaid invoices per custoemr"
+		onInit="action-charts-record-chart-set-date">
+		<search-fields>
+			<field name="fromDate" title="From Date" type="date" />
+			<field name="toDate" title="To Date" type="date" />
+		</search-fields>
+		<dataset type="jpql">
+			<![CDATA[
+			select
+				count(invoice.id) as total,
+				party.name as customer
+			from
+				Invoice invoice
+			left join
+				invoice.party party
+			where
+				invoice.status!='paid'
+				and party.customer=true
+				and Date(invoice.dateTo) Between Date(:fromDate) and Date(:toDate)
+			group by
+				party.name
+		]]>
+		
+		</dataset>
+		<category key="customer"/>
+		<series key="total" type="bar" title="Unpaid invoices"/>
+	</chart>
+
+	<action-attrs name="action-charts-record-chart-set-date">
+		<attribute name="value" for="fromDate"
+			expr="eval:__date__.withDayOfMonth(1)" />
+		<attribute name="value" for="toDate" expr="eval:__date__" />
+	</action-attrs>
+</object-views>

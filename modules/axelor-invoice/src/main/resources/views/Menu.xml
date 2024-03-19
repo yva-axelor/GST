@@ -5,43 +5,71 @@
   https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
 
 	<menuitem title="Invoice" name="invoice-root" icon="fa-file"
-		icon-background="deeporange" order="4"/>
-	
-	<menuitem title="Create invoice" name="-invoice-root-create-invoice" parent="invoice-root" action="action.menu.view.create.invoice.form"/>
-	<action-view name="action.menu.view.create.invoice.form" title="Create Invoice" model="com.axelor.invoice.db.Invoice">
-		<view type="form" name="invoice-form"/>
-	</action-view>
-	
-	<menuitem title="Draft invoices" name="-invoice-root-draft-invoices" parent="invoice-root" action="action.menu.view.draft.invoices"/>
-	<action-view name="action.menu.view.draft.invoices" title="Draft invoices" model="com.axelor.invoice.db.Invoice">
-		<view type="grid" name="invoice-grid"/>
-		<domain></domain>
-	</action-view>
-	
-	<menuitem title="Validated invoices" name="invoice-root-validated-invoices" parent="invoice-root" action="action.menu.view.validated.invoices"/>
-	<action-view name="action.menu.view.validated.invoices" title="Validated invoices" model="com.axelor.invoice.db.Invoice">
-		<view type="grid" name="invoice-grid"/>
-		<domain></domain>
-	</action-view>
-	
-	<menuitem title="Paid invoices" name="-invoice-root-paid-invoices" parent="invoice-root" action="action.menu.view.paid.invoices"/>
-	<action-view name="action.menu.view.paid.invoices" title="Paid invoices" model="com.axelor.invoice.db.Invoice">
-		<view type="grid" name="invoice-grid"/>
-		<domain></domain>
-	</action-view>
-	
-	<menuitem title="Cancelled invoices" name="-invoice-root-cancelled-invoices" parent="invoice-root" action="action.menu.view.cancelled.invoices"/>
-	<action-view name="action.menu.view.cancelled.invoices" title="Cancelled invoices" model="com.axelor.invoice.db.Invoice">
-		<view type="grid" name="invoice-grid"/>
-		<domain></domain>
-	</action-view>
-	
-	<menuitem title="All invoices" name="-invoice-root-all-invoices" parent="invoice-root" action="action.menu.view.all.invoices"/>
-	<action-view name="action.menu.view.all.invoices" title="All invoices" model="com.axelor.invoice.db.Invoice">
-		<view type="kanban" name="invoice-kanban"/>
-		<view type="grid" name="invoice-grid"/>
+		icon-background="deeporange" order="4" />
+
+	<menuitem title="Create invoice"
+		name="-invoice-root-create-invoice" parent="invoice-root"
+		action="action.menu.view.create.invoice.form" />
+	<action-view name="action.menu.view.create.invoice.form"
+		title="Create Invoice" model="com.axelor.invoice.db.Invoice">
+		<view type="form" name="invoice-form" />
 	</action-view>
 
+	<menuitem title="Draft invoices"
+		name="-invoice-root-draft-invoices" parent="invoice-root"
+		action="action.menu.view.draft.invoices" />
+	<action-view name="action.menu.view.draft.invoices"
+		title="Draft invoices" model="com.axelor.invoice.db.Invoice">
+		<view type="grid" name="invoice-grid" />
+		<domain>self.status = :_status</domain>
+		<context name="_status" expr="draft" />
+	</action-view>
+
+	<menuitem title="Validated invoices"
+		name="invoice-root-validated-invoices" parent="invoice-root"
+		action="action.menu.view.validated.invoices" />
+	<action-view name="action.menu.view.validated.invoices"
+		title="Validated invoices" model="com.axelor.invoice.db.Invoice">
+		<view type="grid" name="invoice-grid" />
+		<domain>self.status = :_status</domain>
+		<context name="_status" expr="validated" />
+	</action-view>
+
+	<menuitem title="Paid invoices"
+		name="invoice-root-paid-invoices" parent="invoice-root"
+		action="action.menu.view.paid.invoices" />
+	<action-view name="action.menu.view.paid.invoices"
+		title="Paid invoices" model="com.axelor.invoice.db.Invoice">
+		<view type="grid" name="invoice-grid" />
+		<domain>self.status = :_status</domain>
+		<context name="_status" expr="paid" />
+	</action-view>
+
+	<menuitem title="Cancelled invoices"
+		name="invoice-root-cancelled-invoices" parent="invoice-root"
+		action="action.menu.view.cancelled.invoices" />
+	<action-view name="action.menu.view.cancelled.invoices"
+		title="Cancelled invoices" model="com.axelor.invoice.db.Invoice">
+		<view type="grid" name="invoice-grid" />
+		<domain>self.status = :_status</domain>
+		<context name="_status" expr="cancelled" />
+	</action-view>
+
+	<menuitem title="All invoices"
+		name="invoice-root-all-invoices" parent="invoice-root"
+		action="action.menu.view.all.invoices" />
+	<action-view name="action.menu.view.all.invoices"
+		title="All invoices" model="com.axelor.invoice.db.Invoice">
+		<view type="grid" name="invoice-grid" />
+		<view type="form" name="invoice-form" />
+		<view type="kanban" name="invoice-kanban" />
+	</action-view>
+
+	<menuitem title="Teamwork" name="menu-team" hidden="true"
+		id="menu-menu-team" />
+
+	<menuitem title="Documents" name="menu-dms" hidden="true"
+		id="menu-menu-dms" />
 
 
 </object-views>
