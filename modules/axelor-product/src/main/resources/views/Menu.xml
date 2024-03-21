@@ -4,7 +4,7 @@
   xsi:schemaLocation="http://axelor.com/xml/ns/object-views
   https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
   
-	<menuitem title="Product" name="product-root" order="3"/>
+	<menuitem title="Product" name="product-root" order="3" icon="fa-shopping-cart" icon-background="blue"/>
 	<menuitem title="Product" name="product-root-product" parent="product-root" action="action.product.view.product"/>
 	<menuitem title="Product Categories" name="product-root-product-categories" parent="product-root" action="action.product.category.view.product.category"/>
 	

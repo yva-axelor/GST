@@ -21,6 +21,8 @@
 	<action-view name="action.menu.view.draft.invoices"
 		title="Draft invoices" model="com.axelor.invoice.db.Invoice">
 		<view type="grid" name="invoice-grid" />
+		<view type="form" name="invoice-form" />
+		<view type="kanban" name="invoice-kanban" />
 		<domain>self.status = :_status</domain>
 		<context name="_status" expr="draft" />
 	</action-view>
@@ -31,8 +33,10 @@
 	<action-view name="action.menu.view.validated.invoices"
 		title="Validated invoices" model="com.axelor.invoice.db.Invoice">
 		<view type="grid" name="invoice-grid" />
+		<view type="form" name="invoice-form" />
+		<view type="kanban" name="invoice-kanban" />
 		<domain>self.status = :_status</domain>
-		<context name="_status" expr="validated" />
+		<context name="_status" expr="validate" />
 	</action-view>
 
 	<menuitem title="Paid invoices"
@@ -41,6 +45,8 @@
 	<action-view name="action.menu.view.paid.invoices"
 		title="Paid invoices" model="com.axelor.invoice.db.Invoice">
 		<view type="grid" name="invoice-grid" />
+		<view type="form" name="invoice-form" />
+		<view type="kanban" name="invoice-kanban" />
 		<domain>self.status = :_status</domain>
 		<context name="_status" expr="paid" />
 	</action-view>
@@ -51,6 +57,8 @@
 	<action-view name="action.menu.view.cancelled.invoices"
 		title="Cancelled invoices" model="com.axelor.invoice.db.Invoice">
 		<view type="grid" name="invoice-grid" />
+		<view type="form" name="invoice-form" />
+		<view type="kanban" name="invoice-kanban" />
 		<domain>self.status = :_status</domain>
 		<context name="_status" expr="cancelled" />
 	</action-view>

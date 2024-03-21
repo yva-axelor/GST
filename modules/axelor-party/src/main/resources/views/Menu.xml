@@ -4,11 +4,11 @@
   xsi:schemaLocation="http://axelor.com/xml/ns/object-views
   https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
   
- 	<menuitem title="Party" name="party-root" order="2"/>
+ 	<menuitem title="Party" name="party-root" order="2" icon="fa-users" icon-background="indigo"/>
  	
  	<menuitem title="Party" name="party-root-party" parent="party-root" action="action.party.view.party" />
  	<action-view name="action.party.view.party" title="Party" model="com.axelor.party.db.Party">
- 		<view type="cards" name="party-cards"/>
+ 		<view type="cards" name="party-card"/>
  		<view type="grid" name="party-grid"/>
  		<view type="form" name="party-form"/>
  	</action-view>

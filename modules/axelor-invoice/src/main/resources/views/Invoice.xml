@@ -232,7 +232,7 @@
 	<action-record
 		name="action-invoice-record-set-status-to-cancelled"
 		model="com.axelor.invoice.db.Invoice">
-		<field name="status" expr="cancellled" />
+		<field name="status" expr="cancelled" />
 	</action-record>
 
 	<action-record

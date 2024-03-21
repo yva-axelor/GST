@@ -15,19 +15,30 @@
 	</grid>
 
 	<form model="com.axelor.company.db.Sequence" title="Sequence"
-		name="sequence-form">
+		name="sequence-form" onSave="action-group-next-sequence" >
 		<panel>
-			<field name="prefix"
-				onChange="action-sequence-method-generate-sequence" />
-			<field name="padding"
-				onChange="action-sequence-method-generate-sequence" />
-			<field name="suffix"
-				onChange="action-sequence-method-generate-sequence" />
+			<field name="prefix" />
+			<field name="padding" />
+			<field name="suffix" />
 		</panel>
 		<panel>
 			<field name="nextNumber"  />
 			<field name="model" form-view="meta-model-form" grid-view="meta-model-grid"></field>
 		</panel>
 	</form>
+	
+	<action-group name="action-group-next-sequence">
+		<action name="action-sequence-validate-model-sequence"/>
+		<action name="action-sequence-method-generate-sequence"></action>
+	</action-group>
+	
+	<action-validate name="action-sequence-validate-model-sequence" model="com.axelor.company.db.Sequence">
+		<error message="can not create sequence for same model again" if="__repo__(Sequence).all().filter('self.model = ?',model?.id).count() > 0"/>
+	</action-validate >
+	
+	<action-method name="action-sequence-method-generate-sequence" model="com.axelor.company.db.Sequence" >
+		<call class="com.axelor.company.web.SequenceController" method="generateSequence"/>
+	</action-method>
+
 
 </object-views>

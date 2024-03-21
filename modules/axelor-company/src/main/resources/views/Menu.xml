@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
    https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
 
-	<menuitem title="Company" name="company-root" order="5" icon="fas fa-city" icon-background="blue" />
+	<menuitem title="Company" name="company-root" order="5" icon="fa-building" icon-background="amber" />
 
 	<menuitem title="Company" name="company-root-companies"
 		parent="company-root" action="action.company.list.companies" />
