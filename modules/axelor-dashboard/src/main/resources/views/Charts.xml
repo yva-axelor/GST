@@ -5,30 +5,20 @@
   https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
 
 	<chart name="chart.amount.per.status"
-		title="Invoice per status: amount">
+		title="Invoice per status amount">
 		<dataset type="jpql">
 			<![CDATA[
 				select
 					sum(invoice.netAmount) as amount,
-					item.title AS status,
-					invoice.satatus
+					invoice.status as status
 				from
-					Invoice invoice
-					MetaSelect meta,
-						MetaSelectItem item
-					where
-						meta.name="invoice.status"
-						AND item.select = meta
-						AND invoice.status=item.order
+					Invoice as invoice
 					group by
-						item.title,
-						invoice.status
-					order by
-						invoice.status
+						invoice.status	
 			]]>
 		</dataset>
-		<category key="status" />
-		<series key="amount" type="bar" />
+		<category key="status" title="status"/>
+		<series key="amount" type="bar" title="Amount"/>
 
 	</chart>
 
@@ -42,15 +32,17 @@
 					state.name as state
 				from
 					Party party
+				join 
+					party.addressList address
+				join 
+				    address.city city
 				join
-					party.address address
-				join
-					address.state state
-				where
-					party.customer=true
+				    city.state state
+				join 
+				    State statet
+				on state=statet
 				group by
 					state.name
-			
 			]]>
 		</dataset>
 		<category key="state" />
@@ -58,13 +50,15 @@
 	</chart>
 
 	<chart name="chart.invoices.per.status.line"
-		title="Invoice per status: number of invoices">
-		<dataset type="rpc">
-			com.axelor.dashboard.web.DashboardController:invoicePerStatus
+		title="Invoice per status number of invoices">
+		<dataset type="jpql">
+			select count(*) as totalInvoice,invoice.status as status
+			from Invoice as invoice
+			group by
+				invoice.status
 		</dataset>
-
 		<category key="status" type="text" />
-		<series key="totalInvoice" type="line" />
+		<series key="totalInvoice" type="bar" />
 	</chart>
 
 	<chart name="chart.paid.invoices.per.catagory.per.product"
@@ -76,30 +70,18 @@
 		</search-fields>
 		<dataset type="jpql">
 		<![CDATA[
-			select
-				count(invoice.id) as total,
-				productCategory.name as product_catagory,
-				product.name as product_name
-			from
-				Invoice invoice
-			join
-				invoice.invoiceItems items
-			join
-				items.product product
-			join
-				product.catagory productCatagory
-			where
-				invoice.status='paid'
-				and Date(invoice.dateTo) Between Date(:fromDate) and Date(:toDate)
-			group by
-				productCategory.name,
-				product.name
+			select count(*) as total,p.name as product_name 
+			from Invoice ii 
+			inner join InvoiceLine iil 
+			on ii.id=iil.invoice 
+			inner join Product p on p.id=iil.product  
+			where ii.status='paid' AND ii.invoiceDateT BETWEEN :fromDate AND :toDate
+			group by p.name,p.productCategory		
 		]]>
 	
 	</dataset>
-		<category key="product_catagory" />
-		<series key="total" groupBy="product_name" type="bar" />
-
+		<category key="product_name" title="Product"/>
+		<series key="total" type="bar" title="Number of Invoices"/>
 	</chart>
 
 	<chart name="chart.unpaid.invoices.per.customer"
@@ -112,7 +94,7 @@
 		<dataset type="jpql">
 			<![CDATA[
 			select
-				count(invoice.id) as total,
+				count(*) as total,
 				party.name as customer
 			from
 				Invoice invoice
@@ -120,8 +102,7 @@
 				invoice.party party
 			where
 				invoice.status!='paid'
-				and party.customer=true
-				and Date(invoice.dateTo) Between Date(:fromDate) and Date(:toDate)
+				and invoice.invoiceDateT Between :fromDate and :toDate
 			group by
 				party.name
 		]]>
@@ -130,10 +111,18 @@
 		<category key="customer"/>
 		<series key="total" type="bar" title="Unpaid invoices"/>
 	</chart>
+	
+	
+	<action-view name="action-view-grid-validated-not-paid" title="Invoices validated but not paid and older than One month" model="com.axelor.invoice.db.Invoice">
+		<view type="grid" name="invoice-grid"/>
+		<domain>self.invoiceDateT &lt;:date AND self.status='validated'</domain>
+		<context name="date" expr="eval:__date__.minusMonths(1)"/>
+	</action-view>
+	
 
 	<action-attrs name="action-charts-record-chart-set-date">
 		<attribute name="value" for="fromDate"
-			expr="eval:__date__.withDayOfMonth(1)" />
-		<attribute name="value" for="toDate" expr="eval:__date__" />
+			expr="eval:__datetime__.withDayOfMonth(1)" />
+		<attribute name="value" for="toDate" expr="eval:__datetime__" />
 	</action-attrs>
 </object-views>
