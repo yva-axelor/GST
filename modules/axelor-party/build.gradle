@@ -1,0 +1,13 @@
+plugins {
+  id 'com.axelor.app' 
+}
+
+axelor { 
+  title = 'Axelor Party'
+}
+
+dependencies {
+  // add dependencies
+    
+
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+  https://axelor.com/xml/ns/domain-models/domain-models_6.0.xsd">
+  
+  <module package="com.axelor.party.db" name="party"/>
+  
+  <entity name="Contact">
+  	<string name="name" title="Name" required="true"/>
+  	<string name="typeSelect" title="Type" selection="party.contact.type.select" required="true"/>
+  	<string name="primaryEmail" title="Primary Email"/>
+  	<string name="secondaryEmail" title="Secondary Email"/>
+  	<string name="primaryPhone" title="Primary Phone"/>
+  	<string name="secondaryPhone" title="Secondary Phone"/>
+  	<extra-code>
+  		<![CDATA[
+  			public static final String TYPE_PRIMARY = "primary";
+  			public static final String TYPE_SECONDARY = "secondary";
+  			public static final String TYPE_OTHERS = "others";
+  		]]>
+  	</extra-code>
+  </entity>
+  
+  </domain-models>

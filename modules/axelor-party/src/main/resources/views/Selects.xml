@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
+  
+ 	<selection name="party.address.type.select">
+ 		<option value="default">Default</option>
+ 		<option value="invoice">Invoice</option>
+ 		<option value="shipping">Shipping</option>
+ 		<option value="other">Other</option>
+ 	</selection>
+ 	
+ 	<selection name="party.contact.type.select">
+  		<option value="primary">Primary</option>
+  		<option value="secondary">Secondary</option>
+  		<option value="others">Others</option>
+  	</selection>
+  	
+  	<selection name="party.party.type.select">
+  		<option value="0">Company</option>
+  		<option value="1">Individual</option>
+  	</selection>
+  
+  </object-views>

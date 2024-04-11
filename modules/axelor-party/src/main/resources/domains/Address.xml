@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models
+	xmlns="http://axelor.com/xml/ns/domain-models"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+  https://axelor.com/xml/ns/domain-models/domain-models_6.0.xsd">
+
+	<module package="com.axelor.party.db" name="party" />
+
+	<entity name="Address">
+		<string name="typeSelect" title="Type"
+			selection="party.address.type.select" required="true" />
+		<string name="line1" title="Line1" required="true" />
+		<string name="line2" title="Line2" />
+		<many-to-one ref="City" name="city" title="City"
+			required="true" />
+		<string name="pinCode" title="Pin code" />
+		<string name="fullAddress" title="Adress" namecolumn="true"
+			search="line1,city">
+  		 <![CDATA[
+                return line1 +" "+city.getName();
+              ]]>
+		</string>
+
+		<extra-code>
+  		<![CDATA[
+  			public static final String TYPE_DEFAULT = "default";
+  			public static final String TYPE_INVOICE = "invoice";
+  			public static final String TYPE_SHIPPING = "shipping";
+  			public static final String TYPE_OTHER = "other";
+  		]]>
+		</extra-code>
+
+
+	</entity>
+
+</domain-models>

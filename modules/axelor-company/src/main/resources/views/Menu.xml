@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+   https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
+
+	<menuitem title="Company" name="company-root" order="5" icon="fa-building" icon-background="amber" />
+
+	<menuitem title="Company" name="company-root-companies"
+		parent="company-root" action="action.company.list.companies" />
+	<action-view name="action.company.list.companies" title="Company" model="com.axelor.company.db.Company">
+		<view type="grid" name="company-grid" />
+		<view type="form" name="company-form" />
+	</action-view>
+
+	<menuitem title="Sequence" name="company-root-sequence"
+		parent="company-root" action="action.company.view.sequence" />
+
+	<action-view name="action.company.view.sequence" title="Sequence" model="com.axelor.company.db.Sequence">
+		<view type="grid" name="sequence-grid" />
+		<view type="form" name="sequence-form" />
+	</action-view>
+	
+	<menuitem title="Bank Account" name="company-root-bank-account"
+		parent="company-root" action="action.company.view.bank.account" />
+
+	<action-view name="action.company.view.bank.account" title="Bank Account" model="com.axelor.company.db.BankAccount">
+		<view type="grid" name="bankAccount-grid" />
+		<view type="form" name="bankAccount-form" />
+	</action-view>
+	
+	
+
+
+</object-views>
